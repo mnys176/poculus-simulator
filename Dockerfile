@@ -11,8 +11,4 @@ RUN ["npm", "install"]
 
 EXPOSE $PORT
 
-ENTRYPOINT find webapp/assets/js \
-    -type f \
-    -exec sed -i "s/localhost/$HOSTNAME/g" {} \; && \
-    echo $HOSTNAME && \
-    npm start
+CMD ["npm", "start"]
