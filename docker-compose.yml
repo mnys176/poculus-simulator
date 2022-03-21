@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+  sim:
+    image: poculus-simulator:latest
+    container_name: poculus-simulator
+    build: .
+    ports:
+      - 24543:24543
+    environment:
+      - HOSTNAME=HOSTNAME

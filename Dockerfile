@@ -1,0 +1,18 @@
+FROM node:16.14
+
+ENV PORT=24543
+ENV DEFAULT_FRAME_RATE=30
+
+WORKDIR /app
+
+COPY . .
+
+RUN ["npm", "install"]
+
+EXPOSE $PORT
+
+ENTRYPOINT find webapp/assets/js \
+    -type f \
+    -exec sed -i "s/localhost/$HOSTNAME/g" {} \; && \
+    echo $HOSTNAME && \
+    npm start

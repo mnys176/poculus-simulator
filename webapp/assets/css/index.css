@@ -1,0 +1,32 @@
+@import "global.css";
+
+#frame-rate {
+    text-align: center;
+    margin-top: -5em;
+}
+
+#frame-rate p { margin-top: -1.5em; }
+
+#frame-rate h2 {
+    font-weight: 100;
+    font-size: 8rem;
+}
+
+#frame-rate h2 span, #toggle-preview { font-size: 1.2rem; }
+
+#up { grid-area: up; }
+
+#down { grid-area: down; }
+
+#toggle-preview {
+    grid-area: toggle;
+    padding: 1em;
+}
+
+#controls {
+    margin-bottom: -3em;
+    display: grid;
+    grid-template-areas: "up down"
+                         "toggle toggle";
+    gap: 16px;
+}
