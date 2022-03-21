@@ -45,6 +45,10 @@ docker-compose up -d --build
 
 2. The simulator should be accessible at `http://localhost:24543`.
 
+| Index                      | Data                      |
+|:---------------------------|:--------------------------|
+| ![](screenshots/index.png) | ![](screenshots/data.png) |
+
 ## Changing the Data
 
 In the likely event that you need to change the shape of the data, take a look at the `packetGenerator` function within `/app/index.js`.
