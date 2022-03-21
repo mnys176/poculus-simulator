@@ -3,9 +3,7 @@ FROM node:16.14
 ENV PORT=24543
 ENV DEFAULT_FRAME_RATE=30
 
-WORKDIR /app
-
-COPY . .
+COPY app .
 
 RUN ["npm", "install"]
 
