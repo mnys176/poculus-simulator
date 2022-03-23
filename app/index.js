@@ -8,6 +8,10 @@ const app = express()
 const server = http.createServer(app)
 const wss = new WebSocket.Server({ server })
 
+const { DEFAULT_FRAME_RATE, PORT } = process.env
+
+let cachedFrameRate
+
 const packetGenerator = function* () {
     let i = 0
     while (true) {
@@ -19,24 +23,20 @@ const packetGenerator = function* () {
     }
 }
 
-const { DEFAULT_FRAME_RATE } = process.env
-let clients = []
-let frameRate
 wss.on('connection', ws => {
     const myCreator = packetGenerator
     const myHandler = pkt => ws.send(JSON.stringify({ packet: pkt }))
-    const delay = Math.floor(1 / (frameRate ?? DEFAULT_FRAME_RATE) * 1000)
-    const sim = new Pump(myCreator, myHandler, delay)
-    clients.push([ws, sim])
+    const delay = Math.floor(1 / (cachedFrameRate ?? DEFAULT_FRAME_RATE) * 1000)
+    ws.sim = new Pump(myCreator, myHandler, delay)
 
-    sim.start()
-    ws.on('close', () => clients = clients.filter(c => c.ws !== ws))
+    ws.sim.start()
     ws.on('message', msg => {
-        frameRate = JSON.parse(msg).frameRate
-
-        clients.forEach(([ws, sim]) => {
-            sim.delay = Math.floor(1 / JSON.parse(msg).frameRate * 1000)
-            ws.send(JSON.stringify({ config: { frameRate } }))
+        cachedFrameRate = JSON.parse(msg).frameRate
+        wss.clients.forEach(client => {
+            client.sim.delay = Math.floor(1 / cachedFrameRate * 1000)
+            client.send(JSON.stringify({
+                config: { frameRate: cachedFrameRate }
+            }))
         })
     })
 })
@@ -45,12 +45,11 @@ app.use(express.static('webapp'))
 
 app.get('/config', (req, res) => {
     const data = JSON.stringify({
-        config: { frameRate: frameRate ?? DEFAULT_FRAME_RATE }
+        config: { frameRate: cachedFrameRate ?? DEFAULT_FRAME_RATE }
     })
     return res.status(200).send(data)
 })
 
-const { PORT } = process.env
 server.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}!`)
 })
