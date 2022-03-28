@@ -1,12 +1,12 @@
 # Poculus SocketSim
 
-<!-- GitHub Markdown -->
-<p align="center"><img src="./app/webapp/assets/images/png/logo.png"></p>
+This simulator is designed to serve as a flexible websocket data source to aid *Poculus Industries* project development. It is currently capable of continuously streaming data packets of any shape from 1-60 packets (frames) per second.
 
 <!-- Native Markdown -->
 <!-- ![](./app/webapp/assets/images/png/logo.png) -->
 
-This simulator is designed to serve as a flexible websocket data source to aid *Poculus Industries* project development. It is currently capable of continuously streaming data packets of any shape from 1-60 packets (frames) per second.
+<!-- GitHub Markdown -->
+<p align="center"><img src="./app/webapp/assets/images/png/logo.png"></p>
 
 ## Dependencies
 
