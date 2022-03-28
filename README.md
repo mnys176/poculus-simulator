@@ -38,8 +38,8 @@ It is typically preferred to run the simulator in a standalone Docker container,
 
 ```bash
 cd <repository-root>
-docker build -t 'poculus-simulator' .
-docker run -dp 24543:24543 --name 'poculus-simulator' poculus-simulator
+docker build -t 'poculus-socketsim' .
+docker run -dp 24543:24543 --name 'poculus-socketsim' poculus-socketsim
 ```
 
 ...or automatically using the `docker-compose.yml` file.

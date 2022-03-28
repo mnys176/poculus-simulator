@@ -1,8 +1,8 @@
 version: '3.9'
 services:
   sim:
-    image: poculus-simulator
-    container_name: poculus-simulator
+    image: poculus-socketsim
+    container_name: poculus-socketsim
     build: .
     ports:
       - 24543:24543
