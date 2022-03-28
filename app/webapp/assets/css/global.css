@@ -4,7 +4,8 @@
 }
 
 body {
-    color: #6c0000;
+    background-color: #000;
+    color: #6437c3;
     font: 1em "Helvetica", sans-serif;
     height: 100vh;
     display: flex;
@@ -23,14 +24,8 @@ main {
 
 a, h1 { text-align: center; }
 
-h1 {
-    font-size: 3.5rem;
-    font-style: italic;
-    font-weight:  lighter;
-}
-
 header, footer, a, button {
-    background-color: #6c0000;
+    background-color: #6437c3;
     color:  #fff;
 }
 
@@ -42,14 +37,14 @@ section header {
 }
 
 a, button {
-    border: 1px solid #6c0000;
+    border: 1px solid #6437c3;
     border-radius: 8px;
     padding: 1.2em;
 }
 
 a:hover, button:hover {
-    background-color: #d1d1d1;
-    color: #6c0000;
+    background-color: #d7b4f1;
+    color: #6437c3;
     cursor: pointer;
 }
 
