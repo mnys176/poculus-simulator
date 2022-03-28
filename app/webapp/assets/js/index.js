@@ -7,12 +7,6 @@
 
     const socket = new WebSocket(`ws://${SERVER_URL}`)
 
-    const initializeFrameRate = async () => {
-        const response = await fetch(`http://${SERVER_URL}/config`)
-        const { config } = await response.json()
-        frameRateElement.innerHTML = config.frameRate + '<span>FPS</span>'
-    }
-
     const initializeControls = () => {
         upButtonElement.onclick = () => updateFrameRate(false)
         downButtonElement.onclick = () => updateFrameRate(true)
@@ -39,8 +33,6 @@
         socket.send(JSON.stringify({ frameRate }))
     }
 
-
-    await initializeFrameRate()
     initializeControls()
     initializeWebSocket()
 })()

@@ -55,6 +55,15 @@ docker-compose up -d --build
 |:---------------------------|:--------------------------|
 | ![](screenshots/index.png) | ![](screenshots/data.png) |
 
+## Environment Variables
+
+It is also possible to change the default port and frame rate on startup using environment variables. Useful when spinning up multiple instances at a time.
+
+| Variable             | Definition                       | Default |
+|:---------------------|:---------------------------------|:--------|
+| `PORT`               | Port to access the simulator.    | 24543   |
+| `DEFAULT_FRAME_RATE` | Initial frame rate to emit data. | 30      |
+
 ## Changing the Data
 
 In the likely event that you need to change the shape of the data, take a look at the `packetGenerator` function within `/app/index.js`.

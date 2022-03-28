@@ -8,13 +8,6 @@
 
     const socket = new WebSocket(`ws://${SERVER_URL}`)
 
-    const initializeFrameRate = async () => {
-        const response = await fetch(`http://${SERVER_URL}/config`)
-        const { config } = await response.json()
-        frameRateElement.innerText = config.frameRate + ' FPS : Tap' +
-                                                        ' or Click to Pause'
-    }
-
     let autoscroll = true
     const initializeViewerList = () => {
         viewerListElement.onclick = () => {
@@ -55,7 +48,6 @@
         clearButtonElement.innerText = 'Clear Viewer'
     }
 
-    await initializeFrameRate()
     initializeViewerList()
     initializeControls()
     initializeWebSocket()

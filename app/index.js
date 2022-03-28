@@ -30,6 +30,10 @@ wss.on('connection', ws => {
     ws.sim = new Pump(myCreator, myHandler, delay)
 
     ws.sim.start()
+    ws.send(JSON.stringify({
+        config: { frameRate: cachedFrameRate ?? DEFAULT_FRAME_RATE }
+    }))
+
     ws.on('message', msg => {
         cachedFrameRate = JSON.parse(msg).frameRate
         wss.clients.forEach(client => {
@@ -42,13 +46,6 @@ wss.on('connection', ws => {
 })
 
 app.use(express.static('webapp'))
-
-app.get('/config', (req, res) => {
-    const data = JSON.stringify({
-        config: { frameRate: cachedFrameRate ?? DEFAULT_FRAME_RATE }
-    })
-    return res.status(200).send(data)
-})
 
 server.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}!`)
