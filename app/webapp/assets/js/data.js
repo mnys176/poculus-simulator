@@ -1,54 +1,52 @@
-(async () => {
-    const SERVER_URL = 'localhost:24543'
-    const VIEWER_THRESHOLD = 1000
-    
-    const frameRateElement = document.querySelector('#data-preview h3')
-    const viewerListElement = document.querySelector('ul')
-    const clearButtonElement = document.getElementById('clear')
+const SERVER_URL = 'localhost:24543'
+const VIEWER_THRESHOLD = 1000
 
-    const socket = new WebSocket(`ws://${SERVER_URL}`)
+const frameRateElement = document.querySelector('#data-preview h3')
+const viewerListElement = document.querySelector('ul')
+const clearButtonElement = document.getElementById('clear')
 
-    let autoscroll = true
-    const initializeViewerList = () => {
-        viewerListElement.onclick = () => {
-            autoscroll = false
-            clearButtonElement.innerText = 'Clear & Resume Viewer'
-        }
+const socket = new WebSocket(`ws://${SERVER_URL}`)
+
+let autoscroll = true
+const initializeViewerList = () => {
+    viewerListElement.onclick = () => {
+        autoscroll = false
+        clearButtonElement.innerText = 'Clear & Resume Viewer'
     }
+}
 
-    const initializeControls = () => {
-        clearButtonElement.onclick = () => clearViewer()
-    }
+const initializeControls = () => {
+    clearButtonElement.onclick = () => clearViewer()
+}
 
-    const initializeWebSocket = () => {
-        socket.addEventListener('message', evt => {
-            const { config, packet } = JSON.parse(evt.data)
-            if (config) {
-                const { frameRate } = config
-                frameRateElement.innerText = frameRate + ' FPS : Tap' +
-                                                         ' or Click to Pause'
-            } else if (packet) {
-                if (autoscroll) {
-                    const li = document.createElement('li')
-                    li.innerText = JSON.stringify(packet)
-                    viewerListElement.appendChild(li)
-                    viewerListElement.scrollTop = viewerListElement.scrollHeight
-                }
-
-                if (viewerListElement.childNodes.length >= VIEWER_THRESHOLD) {
-                    clearViewer()
-                }
+const initializeWebSocket = () => {
+    socket.addEventListener('message', evt => {
+        const { config, packet } = JSON.parse(evt.data)
+        if (config) {
+            const { frameRate } = config
+            frameRateElement.innerText = frameRate + ' FPS : Tap' +
+                                                     ' or Click to Pause'
+        } else if (packet) {
+            if (autoscroll) {
+                const li = document.createElement('li')
+                li.innerText = JSON.stringify(packet)
+                viewerListElement.appendChild(li)
+                viewerListElement.scrollTop = viewerListElement.scrollHeight
             }
-        })
-    }
 
-    const clearViewer = () => {
-        viewerListElement.innerHTML = ''
-        autoscroll = true
-        clearButtonElement.innerText = 'Clear Viewer'
-    }
+            if (viewerListElement.childNodes.length >= VIEWER_THRESHOLD) {
+                clearViewer()
+            }
+        }
+    })
+}
 
-    initializeViewerList()
-    initializeControls()
-    initializeWebSocket()
-})()
+const clearViewer = () => {
+    viewerListElement.innerHTML = ''
+    autoscroll = true
+    clearButtonElement.innerText = 'Clear Viewer'
+}
+
+initializeViewerList()
+initializeControls()
+initializeWebSocket()

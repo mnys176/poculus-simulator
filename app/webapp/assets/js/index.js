@@ -1,38 +1,37 @@
-(async () => {
-    const SERVER_URL = 'localhost:24543'
 
-    const frameRateElement = document.querySelector('#frame-rate>h2')
-    const upButtonElement = document.getElementById('up')
-    const downButtonElement = document.getElementById('down')
+const SERVER_URL = 'localhost:24543'
 
-    const socket = new WebSocket(`ws://${SERVER_URL}`)
+const frameRateElement = document.querySelector('#frame-rate>h2')
+const upButtonElement = document.getElementById('up')
+const downButtonElement = document.getElementById('down')
 
-    const initializeControls = () => {
-        upButtonElement.onclick = () => updateFrameRate(false)
-        downButtonElement.onclick = () => updateFrameRate(true)
-    }
+const socket = new WebSocket(`ws://${SERVER_URL}`)
 
-    const initializeWebSocket = () => {
-        socket.addEventListener('message', evt => {
-            const { config } = JSON.parse(evt.data)
-            if (config) {
-                const { frameRate } = config
-                frameRateElement.innerHTML = frameRate + '<span>FPS</span>'
-            }
-        })
-    }
+const initializeControls = () => {
+    upButtonElement.onclick = () => updateFrameRate(false)
+    downButtonElement.onclick = () => updateFrameRate(true)
+}
 
-    const updateFrameRate = dec => {
-        let frameRate = parseInt(frameRateElement.innerHTML.split('<')[0])
-        if (dec) {
-            frameRate -= frameRate === 1 ? 0 : 1
-        } else {
-            frameRate += frameRate === 60 ? 0 : 1
+const initializeWebSocket = () => {
+    socket.addEventListener('message', evt => {
+        const { config } = JSON.parse(evt.data)
+        if (config) {
+            const { frameRate } = config
+            frameRateElement.innerHTML = frameRate + '<span>FPS</span>'
         }
-        frameRateElement.innerHTML = frameRate + '<span>FPS</span>'
-        socket.send(JSON.stringify({ frameRate }))
-    }
+    })
+}
 
-    initializeControls()
-    initializeWebSocket()
-})()
+const updateFrameRate = dec => {
+    let frameRate = parseInt(frameRateElement.innerHTML.split('<')[0])
+    if (dec) {
+        frameRate -= frameRate === 1 ? 0 : 1
+    } else {
+        frameRate += frameRate === 60 ? 0 : 1
+    }
+    frameRateElement.innerHTML = frameRate + '<span>FPS</span>'
+    socket.send(JSON.stringify({ frameRate }))
+}
+
+initializeControls()
+initializeWebSocket()
