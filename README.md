@@ -1,5 +1,7 @@
 # Poculus SocketSim
 
+![](app/webapp/assets/images/png/logo.png)
+
 This simulator is designed to serve as a flexible websocket data source to aid *Poculus Industries* project development. It is currently capable of continuously streaming data packets of any shape from 1-60 packets (frames) per second.
 
 ## Dependencies
@@ -12,7 +14,7 @@ This simulator is designed to serve as a flexible websocket data source to aid *
 1. Clone this repository.
 
 ```bash
-git clone https://github.com/mnys176/poculus-simulator.git --depth 1
+git clone https://github.com/mnys176/poculus-socketsim.git --depth 1
 ```
 
 2. From the `/app` directory, install dependencies and start the simulator.
