@@ -6,7 +6,7 @@ This simulator is designed to serve as a flexible websocket data source to aid *
 <!-- ![](./app/webapp/assets/images/png/logo.png) -->
 
 <!-- GitHub Markdown -->
-<p align="center"><img src="./app/webapp/assets/images/png/logo.png"></p>
+<div align="center"><img src="./app/webapp/assets/images/png/logo.png"></div>
 
 ## Dependencies
 
@@ -38,7 +38,7 @@ It is typically preferred to run the simulator in a standalone Docker container,
 
 ```bash
 cd <repository-root>
-docker build -t poculus-simulator .
+docker build -t 'poculus-simulator' .
 docker run -dp 24543:24543 --name 'poculus-simulator' poculus-simulator
 ```
 
