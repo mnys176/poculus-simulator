@@ -2,7 +2,7 @@
 <!-- ![](./app/webapp/assets/images/png/logo.png) -->
 
 <!-- GitHub Markdown -->
-<div align="center"><img src="./app/webapp/assets/images/png/logo.png"></div>
+<div align="center"><img src="./screenshots/logo.png"></div>
 
 # Poculus SocketSim
 
