@@ -8,13 +8,13 @@ class Pump {
         this.#creator = this.#wrap(creator)
         this.#handler = handler
         this.#intervalId = null
-        this.#delay = delay
+        this.#delay = this.#checkDelay(delay) ? parseInt(delay) : 1
     }
 
     get delay() { return this.#delay }
     
     set delay(delay) {
-        this.#delay = parseInt(delay)
+        this.#delay = this.#checkDelay(delay) ? parseInt(delay) : 1
         this.stop()
         this.start()
     }
@@ -35,6 +35,11 @@ class Pump {
             this.#intervalId = null
             cb()
         }
+    }
+
+    #checkDelay(delay) {
+        delay = parseInt(delay)
+        return delay >= 1 && delay <= 120
     }
 
     #wrap(fn) {

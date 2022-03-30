@@ -8,7 +8,13 @@ const app = express()
 const server = http.createServer(app)
 const wss = new WebSocket.Server({ server })
 
-const { DEFAULT_FRAME_RATE, PORT } = process.env
+const {
+    DEFAULT_FRAME_RATE,
+    MIN_FRAME_RATE,
+    MAX_FRAME_RATE,
+    PORT,
+    VIEWER_THRESHOLD
+} = process.env
 
 let cachedFrameRate
 
@@ -25,21 +31,28 @@ const packetGenerator = function* () {
 
 wss.on('connection', ws => {
     const myCreator = packetGenerator
-    const myHandler = pkt => ws.send(JSON.stringify({ packet: pkt }))
-    const delay = Math.floor(1 / (cachedFrameRate ?? DEFAULT_FRAME_RATE) * 1000)
+    const myHandler = packet => ws.send(JSON.stringify({ packet }))
+    const delay = Math.floor(
+        1 / (cachedFrameRate ?? parseInt(DEFAULT_FRAME_RATE)) * 1000
+    )
     ws.sim = new Pump(myCreator, myHandler, delay)
-
     ws.sim.start()
+
     ws.send(JSON.stringify({
-        config: { frameRate: cachedFrameRate ?? DEFAULT_FRAME_RATE }
+        init: {
+            frameRate: cachedFrameRate ?? parseInt(DEFAULT_FRAME_RATE),
+            minFrameRate: parseInt(MIN_FRAME_RATE),
+            maxFrameRate: parseInt(MAX_FRAME_RATE),
+            viewerThreshold: parseInt(VIEWER_THRESHOLD)
+        }
     }))
 
     ws.on('message', msg => {
-        cachedFrameRate = JSON.parse(msg).frameRate
+        cachedFrameRate = parseInt(JSON.parse(msg).frameRate)
         wss.clients.forEach(client => {
             client.sim.delay = Math.floor(1 / cachedFrameRate * 1000)
             client.send(JSON.stringify({
-                config: { frameRate: cachedFrameRate }
+                update: { frameRate: cachedFrameRate }
             }))
         })
     })

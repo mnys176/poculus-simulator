@@ -1,11 +1,11 @@
 const SERVER_URL = 'localhost:24543'
-const VIEWER_THRESHOLD = 1000
 
 const frameRateElement = document.querySelector('#data-preview h3')
 const viewerListElement = document.querySelector('ul')
 const clearButtonElement = document.getElementById('clear')
 
 const socket = new WebSocket(`ws://${SERVER_URL}`)
+let frameRate, viewerThreshold
 
 let autoscroll = true
 const initializeViewerList = () => {
@@ -21,9 +21,14 @@ const initializeControls = () => {
 
 const initializeWebSocket = () => {
     socket.addEventListener('message', evt => {
-        const { config, packet } = JSON.parse(evt.data)
-        if (config) {
-            const { frameRate } = config
+        const { init, update, packet } = JSON.parse(evt.data)
+        if (init) {
+            frameRate = init.frameRate
+            viewerThreshold = init.viewerThreshold
+            frameRateElement.innerText = frameRate + ' FPS : Tap' +
+                                                     ' or Click to Pause'
+        } else if (update) {
+            frameRate = update.frameRate
             frameRateElement.innerText = frameRate + ' FPS : Tap' +
                                                      ' or Click to Pause'
         } else if (packet) {
@@ -34,7 +39,7 @@ const initializeWebSocket = () => {
                 viewerListElement.scrollTop = viewerListElement.scrollHeight
             }
 
-            if (viewerListElement.childNodes.length >= VIEWER_THRESHOLD) {
+            if (viewerListElement.childNodes.length >= viewerThreshold) {
                 clearViewer()
             }
         }

@@ -1,12 +1,9 @@
-<!-- Native Markdown -->
-<!-- ![](./app/webapp/assets/images/png/logo.png) -->
-
-<!-- GitHub Markdown -->
+<!-- logo -->
 <div align="center"><img src="./screenshots/logo.png"></div>
 
 # Poculus SocketSim
 
-This simulator is designed to serve as a flexible websocket data source to aid *Poculus Industries* project development. It is currently capable of continuously streaming data packets of any shape from 1-60 packets (frames) per second.
+This simulator is designed to serve as a flexible websocket data source to aid *Poculus Industries* project development.
 
 
 ## Dependencies
@@ -60,10 +57,15 @@ docker-compose up -d --build
 
 It is also possible to change the default port and frame rate on startup using environment variables. Useful when spinning up multiple instances at a time.
 
-| Variable             | Definition                       | Default |
-|:---------------------|:---------------------------------|:--------|
-| `PORT`               | Port to access the simulator.    | 24543   |
-| `DEFAULT_FRAME_RATE` | Initial frame rate to emit data. | 30      |
+| Variable             | Definition                                                                                                                                   | Default | Units  |
+|:---------------------|:---------------------------------------------------------------------------------------------------------------------------------------------|:--------|:-------|
+| `PORT`               | Port to access the simulator. When running multiple instances at a time, this must be changed.                                               | 24543   |        |
+| `MIN_FRAME_RATE`     | Minimum frame rate to emit data.                                                                                                             | 1       | FPS    |
+| `DEFAULT_FRAME_RATE` | Initial frame rate to emit data.                                                                                                             | 30      | FPS    |
+| `MAX_FRAME_RATE`     | Maximum frame rate to emit data.                                                                                                             | 60      | FPS    |
+| `VIEWER_THRESHOLD`   | Number of frames to cache in the browser before the list is cleared. Higher value usually means a decrease in browser performance over time. | 1000    | frames |
+
+**NOTE:** Setting a frame rate value too high can freeze the browser tab. In order to ensure best results, frame rates less than 1 FPS or greater than 120 FPS will be ignored and the simulator will force the frame rate to 1 FPS.
 
 ## Changing the Data
 

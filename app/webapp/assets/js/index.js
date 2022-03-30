@@ -6,6 +6,7 @@ const upButtonElement = document.getElementById('up')
 const downButtonElement = document.getElementById('down')
 
 const socket = new WebSocket(`ws://${SERVER_URL}`)
+let frameRate, minFrameRate, maxFrameRate
 
 const initializeControls = () => {
     upButtonElement.onclick = () => updateFrameRate(false)
@@ -14,23 +15,33 @@ const initializeControls = () => {
 
 const initializeWebSocket = () => {
     socket.addEventListener('message', evt => {
-        const { config } = JSON.parse(evt.data)
-        if (config) {
-            const { frameRate } = config
+        const { init, update } = JSON.parse(evt.data)
+        if (init) {
+            frameRate = init.frameRate
+            minFrameRate = init.minFrameRate
+            maxFrameRate = init.maxFrameRate
+            frameRateElement.innerHTML = frameRate + '<span>FPS</span>'
+        } else if (update) {
+            frameRate = update.frameRate
             frameRateElement.innerHTML = frameRate + '<span>FPS</span>'
         }
     })
 }
 
 const updateFrameRate = dec => {
-    let frameRate = parseInt(frameRateElement.innerHTML.split('<')[0])
+    let displayedFrameRate = parseInt(frameRateElement.innerHTML.split('<')[0])
+
     if (dec) {
-        frameRate -= frameRate === 1 ? 0 : 1
+        displayedFrameRate -= frameRate === minFrameRate ? 0 : 1
     } else {
-        frameRate += frameRate === 60 ? 0 : 1
+        displayedFrameRate += frameRate === maxFrameRate ? 0 : 1
     }
-    frameRateElement.innerHTML = frameRate + '<span>FPS</span>'
-    socket.send(JSON.stringify({ frameRate }))
+
+    if (displayedFrameRate !== frameRate) {
+        frameRateElement.innerHTML = displayedFrameRate + '<span>FPS</span>'
+        socket.send(JSON.stringify({ frameRate: displayedFrameRate }))
+    }
+
 }
 
 initializeControls()
