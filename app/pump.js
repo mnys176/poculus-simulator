@@ -39,7 +39,7 @@ class Pump {
 
     #checkDelay(delay) {
         delay = parseInt(delay)
-        return delay >= 1 && delay <= 120
+        return delay > 8.3 && delay <= 1000.0
     }
 
     #wrap(fn) {
