@@ -1,5 +1,5 @@
 <!-- logo -->
-<div align="center"><img src="./screenshots/logo.png"></div>
+<div align="center"><img src="./.github/images/logo.png"></div>
 
 # Poculus SocketSim
 
