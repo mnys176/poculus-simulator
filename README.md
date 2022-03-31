@@ -49,9 +49,7 @@ docker-compose up -d --build
 
 2. The simulator should be accessible at `http://localhost:24543`.
 
-| Index                      | Data                      |
-|:---------------------------|:--------------------------|
-| ![](screenshots/index.png) | ![](screenshots/data.png) |
+![demo](.github/images/demo.gif)
 
 ## Environment Variables
 
