@@ -104,3 +104,7 @@ const packetGenerator = function* () {       // generators (can be asynchronous)
 ```
 
 **NOTE:** You must restart the application in order for any of these changes to take effect. If using Docker, stop the existing container and rebuild the image.
+
+```bash
+docker-compose down && docker-compose up -d --build
+```
