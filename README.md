@@ -32,7 +32,7 @@ npm install && npm start
 
 It is typically preferred to run the simulator in a standalone Docker container, as it is by far the most turn-key way of getting up and running; no need for you to install NodeJS yourself.
 
-1. From the root of the repository, build the image and run the container maually...
+1. From the root of the repository, build the image and run the container manually...
 
 ```bash
 cd <repository-root>
@@ -104,3 +104,7 @@ const packetGenerator = function* () {       // generators (can be asynchronous)
 ```
 
 **NOTE:** You must restart the application in order for any of these changes to take effect. If using Docker, stop the existing container and rebuild the image.
+
+```bash
+docker-compose down && docker-compose up -d --build
+```
