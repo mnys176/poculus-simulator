@@ -1,10 +1,8 @@
-const SERVER_URL = 'localhost:24543'
-
 const frameRateElement = document.querySelector('#data-preview h3')
 const viewerListElement = document.querySelector('ul')
 const clearButtonElement = document.getElementById('clear')
 
-const socket = new WebSocket(`ws://${SERVER_URL}`)
+const socket = new WebSocket(`ws://${location.host}`)
 let frameRate, viewerThreshold
 
 let autoscroll = true

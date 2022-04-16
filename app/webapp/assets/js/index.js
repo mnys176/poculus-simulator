@@ -1,11 +1,8 @@
-
-const SERVER_URL = 'localhost:24543'
-
 const frameRateElement = document.querySelector('#frame-rate>h2')
 const upButtonElement = document.getElementById('up')
 const downButtonElement = document.getElementById('down')
 
-const socket = new WebSocket(`ws://${SERVER_URL}`)
+const socket = new WebSocket(`ws://${location.host}`)
 let frameRate, minFrameRate, maxFrameRate
 
 const initializeControls = () => {
