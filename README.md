@@ -67,10 +67,10 @@ It is also possible to change the default port and frame rate on startup using e
 
 ## Changing the Data
 
-In the likely event that you need to change the shape of the data, take a look at the `packetGenerator` function within `/app/index.js`.
+In the likely event that you need to change the shape of the data, take a look at the default setup in `/app/default.js`.
 
 ```javascript
-const packetGenerator = function* () {
+module.exports = function* () {
     let i = 0
     while (true) {
         const x = Math.round(-6144 * Math.cos(i) * 10) / 10
@@ -84,26 +84,28 @@ const packetGenerator = function* () {
 
 The default shape of the received data will be a simple JavaScript object with an `x`, `y`, and `z` component created by a JavaScript [generator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator).
 
-Let's say you wanted to generate a random decimal number instead. `packetGenerator` can be changed to something like this.
+Let's say you wanted to generate a random decimal number instead. the export can be changed to something like this.
 
 ```javascript
-const packetGenerator = () => Math.random()
+module.exports = () => Math.random()
 ```
 
-Note that the function itself does not have to be a generator. All that matters is that the function resolves to a value; that value can be anything.
+Changing the default directly would get the job done, however it is preferred that the default is simply overriden by a separate custom JavaScript file. To achieve this, create a file called `custom.js` in `/app` and put your logic there. The simulator is hardcoded to look for `custom.js`, and if it does not exist is uses `default.js` instead.
+
+The function itself does not have to be a generator. All that matters is that the function resolves to a value; that value can be anything.
 
 Some more examples:
 
 ```javascript
-const packetGenerator = 'Some Value'         // constants
-const packetGenerator = () => Math.random()  // functions  (can be asynchronous)
-const packetGenerator = function* () {       // generators (can be asynchronous)
+module.exports = 'Some Value'         // constants
+module.exports = () => Math.random()  // functions  (can be asynchronous)
+module.exports = function* () {       // generators (can be asynchronous)
     let i = 0
     while (true) yield i++
 }
 ```
 
-**NOTE:** You must restart the application in order for any of these changes to take effect. If using Docker, stop the existing container and rebuild the image.
+**NOTE:** You must restart the application in order for any of these changes to take effect. If using Docker, stop the existing container(s) and rebuild the image.
 
 ```bash
 docker-compose down && docker-compose up -d --build

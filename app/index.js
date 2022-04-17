@@ -1,3 +1,4 @@
+const fs = require('fs')
 const http = require('http')
 const express = require('express')
 const WebSocket = require('ws')
@@ -18,19 +19,8 @@ const {
 
 let cachedFrameRate
 
-const packetGenerator = function* () {
-    let i = 0
-    while (true) {
-        const x = Math.round(-6144 * Math.cos(i) * 10) / 10
-        const y = Math.round(3328 * Math.sin(i) * 10) / 10
-        const z = Math.round(3328 * Math.sin(i) * 10) / 10
-        i += 0.1
-        yield { x, y, z }
-    }
-}
-
 wss.on('connection', ws => {
-    const myCreator = packetGenerator
+    const myCreator = fs.existsSync('./custom.js') ? require('./custom') : require('./default')
     const myHandler = packet => ws.send(JSON.stringify({ packet }))
     const delay = Math.floor(
         1 / (cachedFrameRate ?? parseInt(DEFAULT_FRAME_RATE)) * 1000
